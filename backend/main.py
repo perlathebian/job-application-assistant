@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from backend.api.v1.router import api_router
 
 app = FastAPI(
     title="Job Application Assistant API",
@@ -17,6 +18,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Include API v1 routes
+app.include_router(api_router, prefix="/api/v1")
 
 @app.get("/health")
 async def health():
