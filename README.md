@@ -42,3 +42,26 @@ uvicorn backend.main:app --reload
 # Run tests
 pytest tests/test_services/ -v
 ```
+
+### Day 3 (Completed)
+
+- Resume parser for PDF and DOCX files
+- Contact information extraction (email, phone)
+- Years of experience detection
+- POST `/api/v1/resumes/parse-resume` endpoint
+- File upload handling with validation
+- Test suite with 8 passing tests (15 total)
+
+**Test resume parsing:**
+
+```bash
+# Start API
+uvicorn backend.main:app --reload
+
+# Visit http://localhost:8000/api/docs
+# Use POST /api/v1/resumes/parse-resume
+# Upload PDF or DOCX file
+
+# Run tests
+pytest tests/test_services/ -v
+```
