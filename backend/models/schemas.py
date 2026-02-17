@@ -13,3 +13,11 @@ class SkillsOutput(BaseModel):
     skills: List[str]
     experience_level: str | None = None
     job_title: str | None = None
+
+class ResumeParseOutput(BaseModel):
+    """Output schema for parsed resume"""
+    text: str
+    skills: List[str]
+    contact: dict
+    years_experience: int | None = None
+    file_type: str    
