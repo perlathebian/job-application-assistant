@@ -1,0 +1,41 @@
+JOHN DOE
+Software Engineer
+
+Email: john.doe@example.com
+Phone: (555) 123-4567
+LinkedIn: linkedin.com/in/johndoe
+
+PROFESSIONAL SUMMARY
+Experienced Software Engineer with 5+ years of experience in backend development, 
+machine learning, and cloud infrastructure. Proficient in Python, FastAPI, and 
+AWS services. Strong background in building scalable APIs and data pipelines.
+
+TECHNICAL SKILLS
+- Programming Languages: Python, JavaScript, SQL, Go
+- Frameworks: FastAPI, Django, Flask, React, Node.js
+- Machine Learning: PyTorch, TensorFlow, scikit-learn, Pandas, NumPy
+- Databases: PostgreSQL, MongoDB, Redis, Elasticsearch
+- Cloud & DevOps: AWS, Docker, Kubernetes, Terraform, GitHub Actions
+- Tools: Git, Linux, CI/CD, Microservices
+
+PROFESSIONAL EXPERIENCE
+
+Senior Software Engineer | TechCorp Inc. | 2021 - Present
+- Designed and implemented RESTful APIs using FastAPI serving 1M+ requests/day
+- Built machine learning pipelines with PyTorch for recommendation systems
+- Deployed containerized applications to AWS ECS using Docker and Terraform
+- Mentored junior developers and conducted code reviews
+
+Software Engineer | StartupXYZ | 2019 - 2021
+- Developed backend services with Django and PostgreSQL
+- Implemented real-time data processing with Apache Kafka
+- Integrated third-party APIs and payment systems
+- Improved application performance by 40% through optimization
+
+EDUCATION
+Bachelor of Science in Computer Science
+State University | 2015 - 2019
+
+CERTIFICATIONS
+- AWS Certified Solutions Architect
+- Certified Kubernetes Administrator (CKA)
