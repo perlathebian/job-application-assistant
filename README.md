@@ -65,3 +65,15 @@ uvicorn backend.main:app --reload
 # Run tests
 pytest tests/test_services/ -v
 ```
+
+### Day 4 (Completed)
+
+- Semantic matching with sentence-transformers
+- POST `/api/v1/matching/match` endpoint
+- LLM cover letter generation (Groq API - FREE)
+- POST `/api/v1/generation/generate-letter` endpoint
+- Embedding cache for performance
+- Template fallback if LLM unavailable
+- Test suite: 22 tests passing
+
+**Model:** Llama 3.3 70B Versatile via Groq (free, fast, high-quality)
