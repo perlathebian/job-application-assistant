@@ -6,9 +6,12 @@ class Settings(BaseSettings):
     
     # HuggingFace API
     HF_TOKEN: str
-    MODEL_NAME: str = "mistralai/Mixtral-8x7B-Instruct-v0.1"
+    MODEL_NAME: str = "llama-3.3-70b-versatile"
     EMBED_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
     
+    # Groq API
+    GROQ_API_KEY: str
+
     # Database
     DATABASE_URL: str = "sqlite+aiosqlite:///./jobs.db"
     
