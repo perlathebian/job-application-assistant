@@ -77,3 +77,61 @@ pytest tests/test_services/ -v
 - Test suite: 22 tests passing
 
 **Model:** Llama 3.3 70B Versatile via Groq (free, fast, high-quality)
+
+### Day 5 (Completed)
+
+**Streamlit Frontend with Database Persistence**
+
+**Features:**
+
+- Multi-page Streamlit application (5 pages)
+- Job description input with skill extraction
+- Resume upload and parsing (PDF/DOCX)
+- Interactive match visualization with Plotly gauge charts
+- AI cover letter generation with Groq LLM
+- Application history with SQLite database
+- Professional UI with custom CSS
+- Full workflow: job -> resume -> match -> letter -> save
+
+**Running the Application:**
+
+```bash
+# Terminal 1: Start Backend API
+uvicorn backend.main:app --reload
+
+# Terminal 2: Start Frontend (separate terminal)
+streamlit run frontend/app.py
+```
+
+**Access:**
+
+- Frontend: http://localhost:8501
+- API Docs: http://localhost:8000/docs
+
+**First-time setup:**
+
+```bash
+python init_db.py  # Initialize database
+```
+
+**Project Structure:**
+
+```
+frontend/
+├── app.py              # Main Streamlit app
+├── utils.py            # API client utilities
+└── pages/
+    ├── job_input.py    # Job description input
+    ├── resume_upload.py # Resume upload
+    ├── match_display.py # Match visualization
+    ├── letter_display.py # Letter generation
+    └── history.py       # Application history
+```
+
+**Tech Stack:**
+
+- Frontend: Streamlit 1.31.0
+- Charts: Plotly 5.18.0
+- HTTP Client: httpx 0.26.0
+- Database: SQLAlchemy + aiosqlite
+- LLM: Groq API (Llama 3.3 70B)
