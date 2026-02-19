@@ -35,3 +35,5 @@ plotly==5.18.0
 # Development
 black==24.1.0
 ruff==0.1.0
+
+pandas==2.1.4
