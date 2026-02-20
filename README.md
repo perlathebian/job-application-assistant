@@ -135,3 +135,70 @@ frontend/
 - HTTP Client: httpx 0.26.0
 - Database: SQLAlchemy + aiosqlite
 - LLM: Groq API (Llama 3.3 70B)
+
+### Day 6 (Completed)
+
+**Testing, Logging & Production Polish**
+
+**Achievements:**
+
+- **85% test coverage** (37 tests, all passing)
+- Comprehensive logging system (logs saved to `logs/`)
+- Global error handling middleware
+- Performance benchmarking
+- Loading states in frontend
+- Sample data for demos
+- Production-ready error handling
+
+**Testing:**
+
+```bash
+# Run all tests
+pytest tests/ -v
+
+# Run with coverage report
+pytest tests/ --cov=backend --cov-report=html --cov-report=term
+
+# View coverage in browser
+start htmlcov/index.html  # Windows
+open htmlcov/index.html   # Mac
+
+# Run performance benchmark
+python benchmark.py
+```
+
+**Logs:**
+
+- **Location:** `logs/app_YYYYMMDD.log`
+- **Format:** Timestamp, level, module, function, line number, message
+- **Rotation:** Daily (new file each day)
+- **Levels:** DEBUG (file), INFO (console)
+
+**Test Coverage Breakdown:**
+
+- API endpoints: 7 tests
+- Database service: 4 tests
+- Resume parser: 8 tests
+- Semantic matcher: 6 tests
+- Skill extractor: 7 tests
+- Utility cache: 5 tests
+- **Total: 37 tests - 100% passing**
+- **Coverage: 85%** (target is >70%)
+
+**Performance Benchmarks:**
+
+```
+Skill Extraction:    ~12ms per extraction
+Semantic Matching:   ~500ms per match
+Match Report:        ~15ms complete
+Cover Letter:        2-3 seconds (with LLM)
+```
+
+**Logging Examples:**
+
+```
+INFO - backend.services.skill_extractor - Extracting skills from text of length 107
+INFO - backend.services.skill_extractor - Found 8 skills: ['AWS', 'Docker', 'FastAPI', 'Microservices', 'PostgreSQL']...
+INFO - backend.services.semantic_matcher - Match scores - Overall: 69.49%, Skills: 66.67%, Semantic: 73.72%
+INFO - backend.services.letter_generator - Successfully generated 1307 character cover letter
+```
