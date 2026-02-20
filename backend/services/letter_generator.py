@@ -2,6 +2,9 @@ import requests
 from backend.config import settings
 from backend.utils.prompts import COVER_LETTER_PROMPT
 
+from backend.utils.logger import setup_logger
+
+logger = setup_logger(__name__)
 
 class LetterGenerator:
     """Generate cover letters using Groq LLM"""
@@ -74,6 +77,8 @@ Best regards,
         matched_skills: list
     ) -> dict:
         """Generate tailored cover letter"""
+        logger.info(f"Generating cover letter for {applicant_name} applying to {company_name}")
+    
         prompt = self._build_prompt(
             job_description=job_description,
             resume_text=resume_text,
@@ -82,7 +87,7 @@ Best regards,
             match_score=match_score,
             matched_skills=matched_skills
         )
-        
+    
         try:
             payload = {
                 "model": self.model,
@@ -93,28 +98,33 @@ Best regards,
                 "temperature": 0.7,
                 "top_p": 0.9
             }
-            
+        
+            logger.debug(f"Calling Groq API with model {self.model}")
+        
             response = requests.post(
                 self.api_url,
                 headers=self.headers,
                 json=payload,
                 timeout=30
             )
-            
+        
             if response.status_code != 200:
+                logger.error(f"Groq API error: {response.status_code} - {response.text}")
                 raise Exception(f"API returned {response.status_code}: {response.text}")
-            
+        
             result = response.json()
             generated_text = result["choices"][0]["message"]["content"]
             letter = self._clean_output(generated_text)
-            
+        
             if len(letter) < 100:
+                logger.warning(f"Generated letter too short ({len(letter)} chars), using template fallback")
                 letter = self._template_fallback(applicant_name, company_name, matched_skills)
                 return {"cover_letter": letter, "model_used": "template_fallback"}
-            
-            return {"cover_letter": letter, "model_used": self.model}
         
+            logger.info(f"Successfully generated {len(letter)} character cover letter")
+            return {"cover_letter": letter, "model_used": self.model}
+    
         except Exception as e:
-            print(f"LLM failed: {e}")
+            logger.error(f"LLM generation failed: {str(e)}", exc_info=True)
             letter = self._template_fallback(applicant_name, company_name, matched_skills)
             return {"cover_letter": letter, "model_used": "template_fallback"}

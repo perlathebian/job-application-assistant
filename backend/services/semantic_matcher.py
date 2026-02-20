@@ -4,6 +4,9 @@ import numpy as np
 from typing import Dict, List
 from backend.utils.cache import EmbeddingCache
 
+from backend.utils.logger import setup_logger
+
+logger = setup_logger(__name__)
 
 class SemanticMatcher:
     """Calculate semantic similarity between job descriptions and resumes"""
@@ -93,26 +96,34 @@ class SemanticMatcher:
         resume_skills: List[str]
     ) -> Dict:
         """Generate complete match report"""
-        # Calculate skill overlap
-        skill_analysis = self.calculate_skill_overlap(job_skills, resume_skills)
+        logger.info(f"Generating match report: {len(job_skills)} job skills vs {len(resume_skills)} resume skills")
+    
+        try:
+            # Calculate skill overlap
+            skill_analysis = self.calculate_skill_overlap(job_skills, resume_skills)
         
-        # Calculate semantic similarity
-        semantic_score = self.calculate_semantic_similarity(
-            job_description,
-            resume_text
-        )
+            # Calculate semantic similarity
+            semantic_score = self.calculate_semantic_similarity(
+                job_description,
+                resume_text
+            )
         
-        # Combined weighted score
-        # Skills matter more (60%) than semantic similarity (40%)
-        skill_score = skill_analysis["overlap_score"]
-        combined_score = round((skill_score * 0.6) + (semantic_score * 0.4), 2)
+            # Combined weighted score
+            skill_score = skill_analysis["overlap_score"]
+            combined_score = round((skill_score * 0.6) + (semantic_score * 0.4), 2)
         
-        return {
-            "overall_match_score": combined_score,
-            "skill_match_score": skill_score,
-            "semantic_match_score": semantic_score,
-            "matched_skills": skill_analysis["matched_skills"],
-            "missing_skills": skill_analysis["missing_skills"],
-            "extra_skills": skill_analysis["extra_skills"],
-            "recommendation": self.generate_recommendation(combined_score)
-        }
+            logger.info(f"Match scores - Overall: {combined_score}%, Skills: {skill_score}%, Semantic: {semantic_score}%")
+        
+            return {
+                "overall_match_score": combined_score,
+                "skill_match_score": skill_score,
+                "semantic_match_score": semantic_score,
+                "matched_skills": skill_analysis["matched_skills"],
+                "missing_skills": skill_analysis["missing_skills"],
+                "extra_skills": skill_analysis["extra_skills"],
+                "recommendation": self.generate_recommendation(combined_score)
+            }
+    
+        except Exception as e:
+            logger.error(f"Error generating match report: {str(e)}", exc_info=True)
+            raise
