@@ -29,30 +29,43 @@ def show():
             elif len(job_description) < 50:
                 st.error("Job description must be at least 50 characters")
             else:
-                with st.spinner("Extracting skills from job description..."):
-                    try:
-                        # Import here to avoid circular import
-                        from frontend.utils import call_api
-                        
-                        result = asyncio.run(call_api(
-                            "/api/v1/jobs/extract-skills",
-                            json={"text": job_description, "company": company_name}
-                        ))
-                        
-                        # Store in session state
-                        st.session_state.job_data = {
-                            "company_name": company_name,
-                            "description": job_description,
-                            "skills": result["skills"],
-                            "experience_level": result.get("experience_level"),
-                            "job_title": result.get("job_title")
-                        }
-                        
-                        st.success("✅ Skills extracted successfully!")
-                        st.balloons()
-                        
-                    except Exception as e:
-                        st.error(f"❌ Error: {str(e)}")
+                # Progress bar
+                progress_bar = st.progress(0)
+                status_text = st.empty()
+        
+                try:
+                    status_text.text("Analyzing job description...")
+                    progress_bar.progress(30)
+            
+                    from frontend.utils import call_api
+            
+                    result = asyncio.run(call_api(
+                        "/api/v1/jobs/extract-skills",
+                        json={"text": job_description, "company": company_name}
+                    ))
+            
+                    progress_bar.progress(70)
+                    status_text.text("Extracting skills...")
+            
+                    # Store in session state
+                    st.session_state.job_data = {
+                        "company_name": company_name,
+                        "description": job_description,
+                        "skills": result["skills"],
+                        "experience_level": result.get("experience_level"),
+                        "job_title": result.get("job_title")
+                    }
+            
+                    progress_bar.progress(100)
+                    status_text.text("Complete!")
+            
+                    st.success("✅ Skills extracted successfully!")
+                    st.balloons()
+            
+                except Exception as e:
+                    progress_bar.empty()
+                    status_text.empty()
+                    st.error(f"❌ Error: {str(e)}")
     
     with col2:
         if st.session_state.job_data:
