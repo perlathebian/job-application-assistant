@@ -10,7 +10,9 @@ A complete, production-ready ML application for job applications featuring seman
 
 ## Demo
 
-**Live Demo:** [HuggingFace Spaces](https://huggingface.co/spaces/perlathebian/job-application-assistant) _(will add url later; hugging face spaces might not be optimal for this, switching to railway)_
+**Live Demo:** [https://job-application-assistant-production.up.railway.app](https://job-application-assistant-production.up.railway.app)
+
+_Production deployment on Railway with Docker multi-container architecture_
 
 **Screenshots:**
 
