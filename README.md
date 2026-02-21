@@ -3,7 +3,6 @@
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.109.0-009688.svg)](https://fastapi.tiangolo.com/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.30.0-FF4B4B.svg)](https://streamlit.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Tests](https://img.shields.io/badge/tests-37%20passing-brightgreen.svg)](tests/)
 [![Coverage](https://img.shields.io/badge/coverage-85%25-brightgreen.svg)](htmlcov/)
 
@@ -11,7 +10,7 @@ A complete, production-ready ML application for job applications featuring seman
 
 ## Demo
 
-**Live Demo:** [HuggingFace Spaces](https://huggingface.co/spaces/perlathebian/job-application-assistant) _(will add url later; hugging face spaces might be optimal for this, switching to railway)_
+**Live Demo:** [HuggingFace Spaces](https://huggingface.co/spaces/perlathebian/job-application-assistant) _(will add url later; hugging face spaces might not be optimal for this, switching to railway)_
 
 **Screenshots:**
 
