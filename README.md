@@ -28,7 +28,7 @@ _Production deployment on Railway with Docker multi-container architecture_
 
 - 📝 **Job Description Analysis** - Extract skills, experience level, and job titles using spaCy NLP
 - 📄 **Resume Parsing** - Parse PDF and DOCX resumes with contact extraction
-- 🎯 **Semantic Matching** - Calculate match scores using sentence-transformers (85% accuracy)
+- 🎯 **Semantic Matching** - Calculate match scores using sentence-transformers
 - ✉️ **AI Cover Letters** - Generate personalized letters with Groq LLM (Llama 3.3 70B)
 - 📚 **Application History** - Track all applications with SQLite database
 
@@ -42,6 +42,49 @@ _Production deployment on Railway with Docker multi-container architecture_
 - **Testing:** ~85% coverage, 37 tests passing
 - **Logging:** Comprehensive error tracking and performance monitoring
 - **Deployment:** Docker + Docker Compose ready
+
+## Architecture
+
+<p align="center">
+  <img src="docs/architecture-diagram.png" alt="System Architecture" width="100%">
+</p>
+
+### System Components
+
+**Frontend Layer (Streamlit)**
+
+- Multi-page UI with workflow navigation
+- Plotly visualizations for match scores
+- Session state management
+- Async HTTP client for backend communication
+
+**Backend Layer (FastAPI)**
+
+- RESTful API with versioning (/api/v1/)
+- Async SQLAlchemy database operations
+- Pydantic request/response validation
+- Global error handling middleware
+
+**Services Layer**
+
+- **Skill Extractor**: spaCy NLP + 100+ skills database
+- **Resume Parser**: PDF/DOCX parsing with contact extraction
+- **Semantic Matcher**: sentence-transformers (all-MiniLM-L6-v2) + LRU cache
+- **Letter Generator**: Groq LLM API + template fallback
+
+**Data & ML Models**
+
+- spaCy: en_core_web_sm for NLP
+- Sentence Transformers: 384-dim embeddings
+- SQLite database with async support
+- Embedding cache (500 entries, LRU eviction)
+
+**Deployment**
+
+- Docker multi-container architecture
+- Railway platform with auto-deploy
+- GitHub integration for CI/CD
+- Public URL with health monitoring
 
 ## Quick Start
 
