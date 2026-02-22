@@ -222,7 +222,7 @@ job-application-assistant/
 ### DevOps
 
 - **Containerization:** Docker, Docker Compose
-- **Deployment:** HuggingFace Spaces
+- **Deployment:** Railway
 - **Logging:** Python logging with daily rotation
 - **Error Handling:** Custom middleware
 
