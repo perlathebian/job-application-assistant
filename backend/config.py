@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     GROQ_API_KEY: str
 
     # Database
-    DATABASE_URL: str = "sqlite+aiosqlite:///./jobs.db"
+    DATABASE_URL: str = "sqlite+aiosqlite:///./data/jobs.db"
     
     # API Configuration
     API_HOST: str = "0.0.0.0"

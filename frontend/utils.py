@@ -11,7 +11,11 @@ async def call_api(endpoint: str, method: str = "POST", **kwargs):
         url = f"{API_BASE_URL}{endpoint}"
         if method == "POST":
             response = await client.post(url, **kwargs)
-        else:
+        elif method == "GET":
             response = await client.get(url, **kwargs)
+        elif method == "DELETE":
+            response = await client.delete(url, **kwargs)
+        else:
+            raise ValueError(f"Unsupported method: {method}")
         response.raise_for_status()
         return response.json()

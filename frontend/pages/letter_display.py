@@ -91,28 +91,27 @@ def show():
     
     with col3:
         if st.button("💾 Save to History"):
-            # Save to database
             try:
-                # Import database service
-                import sys
-                sys.path.append('.')
-                from backend.services.database_service import db_service
-                
-                asyncio.run(db_service.save_match(
-                    company_name=company_name,
-                    job_title=job_data.get("job_title"),
-                    job_description=job_data["description"],
-                    resume_filename=resume_data["filename"],
-                    overall_score=match_data["overall_match_score"],
-                    skill_score=match_data["skill_match_score"],
-                    semantic_score=match_data["semantic_match_score"],
-                    matched_skills=match_data["matched_skills"],
-                    missing_skills=match_data["missing_skills"],
-                    cover_letter=edited_letter,
-                    model_used=letter_data["model_used"]
+                from frontend.utils import call_api
+
+                asyncio.run(call_api(
+                    "/api/v1/applications/save",
+                    json={
+                        "company_name": company_name,
+                        "job_title": job_data.get("job_title"),
+                        "job_description": job_data["description"],
+                        "resume_filename": resume_data["filename"],
+                        "overall_score": match_data["overall_match_score"],
+                        "skill_score": match_data["skill_match_score"],
+                        "semantic_score": match_data["semantic_match_score"],
+                        "matched_skills": match_data["matched_skills"],
+                        "missing_skills": match_data["missing_skills"],
+                        "cover_letter": edited_letter,
+                        "model_used": letter_data["model_used"]
+                    }
                 ))
-                
+
                 st.success("✅ Saved to history!")
-                
+
             except Exception as e:
                 st.error(f"❌ Error saving: {str(e)}")

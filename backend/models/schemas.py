@@ -13,6 +13,7 @@ class SkillsOutput(BaseModel):
     skills: List[str]
     experience_level: str | None = None
     job_title: str | None = None
+    detected_domain: str | None = None
 
 class ResumeParseOutput(BaseModel):
     """Output schema for parsed resume"""
@@ -56,3 +57,39 @@ class CoverLetterOutput(BaseModel):
     """Output schema for generated cover letter"""
     cover_letter: str
     model_used: str
+
+
+class ApplicationSaveInput(BaseModel):
+    """Input schema for saving an application"""
+    company_name: str
+    job_title: str | None = None
+    job_description: str
+    resume_filename: str
+    overall_score: float
+    skill_score: float
+    semantic_score: float
+    matched_skills: List[str]
+    missing_skills: List[str]
+    cover_letter: str | None = None
+    model_used: str | None = None
+
+
+class ApplicationSaveOutput(BaseModel):
+    """Output schema after saving"""
+    id: int
+
+
+class ApplicationListOutput(BaseModel):
+    """Output schema for a single application in history"""
+    id: int
+    company_name: str
+    job_title: str | None = None
+    overall_score: float
+    skill_score: float
+    semantic_score: float
+    matched_skills: List[str]
+    missing_skills: List[str]
+    cover_letter: str | None = None
+    resume_filename: str
+    model_used: str | None = None
+    created_at: str    
