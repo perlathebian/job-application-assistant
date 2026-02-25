@@ -25,7 +25,8 @@ A complete, production-ready ML application for job applications featuring seman
 
 ### Core Functionality
 
-- 📝 **Job Description Analysis** - Extract skills, experience level, and job titles using spaCy NLP
+- 📝 **Job Description Analysis** - Extract skills, experience level, job titles, and detected role domain using spaCy NLP
+- 🏷️ **Multi-Domain Support** - Supports 6 professional domains: Software Engineering, Data & ML, Marketing, Finance, Healthcare, Operations & Legal (360+ skills)
 - 📄 **Resume Parsing** - Parse PDF and DOCX resumes with contact extraction
 - 🎯 **Semantic Matching** - Calculate match scores using sentence-transformers (85% accuracy)
 - ✉️ **AI Cover Letters** - Generate personalized letters with Groq LLM (Llama 3.3 70B)
@@ -37,7 +38,7 @@ A complete, production-ready ML application for job applications featuring seman
 - **Frontend:** Multi-page Streamlit application
 - **ML Models:** spaCy (NLP), sentence-transformers (semantic matching)
 - **LLM:** Groq API (free and fast inference)
-- **Database:** SQLAlchemy with async SQLite
+- **Database:** SQLAlchemy with async SQLite, persistent via Docker volume mount
 - **Testing:** ~85% coverage, 37 tests passing
 - **Logging:** Comprehensive error tracking and performance monitoring
 - **Deployment:** Docker + Docker Compose ready
@@ -119,6 +120,7 @@ docker-compose up
    - View overall match score (weighted: 60% skills, 40% semantic)
    - See matched vs. missing skills
    - Get recommendation (Excellent/Good/Moderate/Weak)
+   - View detected role domain (Software Engineering, Marketing, Finance, etc.)
 
 4. **Cover Letter Generation**
    - AI generates personalized letter
@@ -156,10 +158,11 @@ job-application-assistant/
 ├── backend/
 │   ├── api/v1/
 │   │   ├── endpoints/          # API routes
-│   │   │   ├── jobs.py         # Job skill extraction
+│   │   │   ├── jobs.py         # Job skill extraction + domain detection
 │   │   │   ├── resumes.py      # Resume parsing
 │   │   │   ├── matching.py     # Semantic matching
-│   │   │   └── generation.py   # Cover letter generation
+│   │   │   ├── generation.py   # Cover letter generation
+│   │   │   └── applications.py # Application history CRUD
 │   │   └── router.py           # Main API router
 │   ├── middleware/
 │   │   └── error_handler.py    # Global error handling
@@ -192,7 +195,8 @@ job-application-assistant/
 │   ├── test_services/          # Service layer tests
 │   └── test_utils/             # Utility tests
 ├── data/
-│   ├── skills_database.json    # 100+ tech skills
+│   ├── skills_database.json    # 360+ skills across 6 domains
+│   ├── jobs.db                 # SQLite database (persistent via Docker volume)
 │   └── sample_data/            # Demo data
 ├── logs/                       # Application logs
 ├── Dockerfile                  # Docker configuration
@@ -227,7 +231,7 @@ job-application-assistant/
 
 ## Performance
 
-- **Skill Extraction:** ~5ms per job description
+- **Skill Extraction:** ~5ms per job description (360+ skills, 6 domains)
 - **Semantic Matching:** ~10ms per comparison
 - **Complete Match Report:** ~15ms
 - **Cover Letter Generation:** 2-3 seconds (LLM)
