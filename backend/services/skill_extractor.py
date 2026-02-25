@@ -2,6 +2,7 @@ import spacy
 import json
 from pathlib import Path
 from typing import List, Dict
+import re
 from backend.utils.logger import setup_logger
 
 logger = setup_logger(__name__)
@@ -27,39 +28,42 @@ class SkillExtractor:
                         self.skills.extend(skill_list)
             elif isinstance(data, list):
                 self.skills = data
+
+            # store domain map for detect_domain
+            self.skills_by_domain = data if isinstance(data, dict) else {}    
         
             logger.info(f"Loaded {len(self.skills)} skills from database")
     
     def extract_skills(self, text: str) -> List[str]:
-        """Extract technical skills from job description"""
+        """Extract technical skills from job description using word-boundary matching."""
         logger.info(f"Extracting skills from text of length {len(text)}")
-        
+
+        # Short skills that are valid (require exact case + word boundary)
+        # Without this: "R" matches "or", "for"; "Go" matches "going", "cargo"
+        SHORT_SKILLS_WHITELIST = {"R", "Go", "C", "C#", "C++", "ML", "AI", "UI", "UX", "AWS", "GCP"}
+
         try:
-            # Process text with spaCy
-            doc = self.nlp(text.lower())
-            
-            # Find skills in text
             found_skills = set()
-            
+
             for skill in self.skills:
-                skill_lower = skill.lower()
-                if skill_lower in text.lower():
-                    found_skills.add(skill)
-            
-            # Also check for multi-word skills
-            for token in doc:
-                token_text = token.text.lower()
-                if token_text in [s.lower() for s in self.skills]:
-                    # Find original casing
-                    for skill in self.skills:
-                        if skill.lower() == token_text:
+                if len(skill) <= 2:
+                    if skill in SHORT_SKILLS_WHITELIST:
+                        # Exact case-sensitive match with word boundary
+                        pattern = r'(?<![a-zA-Z])' + re.escape(skill) + r'(?![a-zA-Z])'
+                        if re.search(pattern, text):
                             found_skills.add(skill)
-                            break
-            
+                    # Any short skill not in whitelist is skipped entirely
+                    continue
+
+                # Normal skills: word boundary, case-insensitive
+                pattern = r'\b' + re.escape(skill) + r'\b'
+                if re.search(pattern, text, re.IGNORECASE):
+                    found_skills.add(skill)
+
             result = sorted(list(found_skills))
             logger.info(f"Found {len(result)} skills: {result[:5]}...")
             return result
-        
+
         except Exception as e:
             logger.error(f"Error extracting skills: {str(e)}", exc_info=True)
             return []
@@ -112,10 +116,31 @@ class SkillExtractor:
         
         return None
     
+    def detect_domain(self, matched_skills: List[str]) -> str:
+        """Detect the most likely job domain based on matched skills."""
+        if not self.skills_by_domain or not matched_skills:
+            return "general"
+
+        domain_scores = {}
+        for domain, skills in self.skills_by_domain.items():
+            skills_lower = {s.lower() for s in skills}
+            matched = [s for s in matched_skills if s.lower() in skills_lower]
+            domain_scores[domain] = len(matched)
+
+        if all(v == 0 for v in domain_scores.values()):
+            return "general"
+
+        best_domain = max(domain_scores, key=domain_scores.get)
+        logger.info(f"Detected domain: {best_domain} (score: {domain_scores[best_domain]})")
+        return best_domain
+
+    
     def extract_all(self, text: str) -> Dict:
         """Extract all information from job description"""
+        skills = self.extract_skills(text)
         return {
-            "skills": self.extract_skills(text),
+            "skills": skills,
             "experience_level": self.extract_experience_level(text),
-            "job_title": self.extract_job_title(text)
+            "job_title": self.extract_job_title(text),
+            "detected_domain": self.detect_domain(skills)  
         }

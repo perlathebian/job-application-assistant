@@ -64,6 +64,30 @@ def test_extract_job_title(extractor):
     # Job title extraction includes context words: verify it contains the key terms
     assert "Machine Learning Engineer" in title
 
+
+def test_false_positive_go_not_extracted(extractor):
+    text = "We are looking to go beyond traditional approaches and grow the team."
+    skills = extractor.extract_skills(text)
+    assert "Go" not in skills
+
+
+def test_false_positive_r_not_extracted(extractor):
+    text = "We are looking for a developer or analyst to join our team."
+    skills = extractor.extract_skills(text)
+    assert "R" not in skills
+
+
+def test_go_extracted_when_standalone(extractor):
+    text = "Required skills: Go, Python, Docker"
+    skills = extractor.extract_skills(text)
+    assert "Go" in skills
+
+
+def test_r_extracted_when_standalone(extractor):
+    text = "Must know Python, R, and SQL for this data analyst role."
+    skills = extractor.extract_skills(text)
+    assert "R" in skills
+
 def test_extract_all(extractor):
     """Test complete extraction"""
     text = """
@@ -82,5 +106,6 @@ def test_extract_all(extractor):
     assert "skills" in result
     assert "experience_level" in result
     assert "job_title" in result
+    assert "detected_domain" in result
     assert result["experience_level"] == "Senior"
     assert len(result["skills"]) > 0

@@ -16,6 +16,20 @@ def show():
     
     # Show context
     st.info(f"📌 **{job_data['company_name']}** vs **{resume_data['filename']}**")
+
+    DOMAIN_LABELS = {
+        "software_engineering": "💻 Software Engineering",
+        "data_ml": "📊 Data & Machine Learning",
+        "marketing": "📣 Marketing",
+        "finance": "💰 Finance",
+        "healthcare": "🏥 Healthcare",
+        "operations_legal": "⚙️ Operations & Legal",
+        "general": "🔍 General"
+    }
+    if job_data.get("detected_domain"):
+        domain_key = job_data["detected_domain"]
+        domain_label = DOMAIN_LABELS.get(domain_key, domain_key.replace("_", " ").title())
+        st.info(f"**Detected Role Domain:** {domain_label}")
     
     # Calculate match button
     if not st.session_state.match_data:
