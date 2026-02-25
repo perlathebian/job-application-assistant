@@ -53,7 +53,8 @@ def show():
                         "description": job_description,
                         "skills": result["skills"],
                         "experience_level": result.get("experience_level"),
-                        "job_title": result.get("job_title")
+                        "job_title": result.get("job_title"),
+                        "detected_domain": result.get("detected_domain") 
                     }
             
                     progress_bar.progress(100)

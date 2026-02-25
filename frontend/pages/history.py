@@ -9,8 +9,13 @@ def show():
     st.title("📚 Application History")
 
     try:
-        matches = asyncio.run(call_api("/api/v1/applications/all", method="GET"))
-
+        # Only fetch if not already cached, or after delete
+        if "history_data" not in st.session_state or st.session_state.get("history_refresh"):
+            matches = asyncio.run(call_api("/api/v1/applications/all", method="GET"))
+            st.session_state.history_data = matches
+            st.session_state.history_refresh = False
+        else:
+            matches = st.session_state.history_data
         if not matches:
             st.info("No saved applications yet. Complete a workflow and save it!")
             return
@@ -28,7 +33,19 @@ def show():
             })
 
         df = pd.DataFrame(data)
-        st.dataframe(df, use_container_width=True)
+        st.dataframe(
+            df,
+            use_container_width=True,
+            height=200,
+            column_config={
+                "Date": st.column_config.TextColumn(width="small"),
+                "Company": st.column_config.TextColumn(width="small"),
+                "Position": st.column_config.TextColumn(width="medium"),
+                "Match Score": st.column_config.TextColumn(width="small"),
+                "Resume": st.column_config.TextColumn(width="medium"),
+            },
+            hide_index=True
+        )
 
         st.markdown("---")
         st.markdown("### 📄 View Details")
@@ -70,6 +87,7 @@ def show():
                     f"/api/v1/applications/{selected['id']}",
                     method="DELETE"
                 ))
+                st.session_state.history_refresh = True
                 st.success("Deleted!")
                 st.rerun()
 

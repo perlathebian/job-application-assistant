@@ -24,7 +24,8 @@ async def extract_skills(job: JobDescriptionInput):
         return SkillsOutput(
             skills=result["skills"],
             experience_level=result["experience_level"],
-            job_title=result["job_title"]
+            job_title=result["job_title"],
+            detected_domain=result["detected_domain"]
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Skill extraction failed: {str(e)}")

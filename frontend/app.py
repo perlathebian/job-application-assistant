@@ -91,6 +91,10 @@ with st.sidebar:
     st.markdown("---")
     
     if st.button("📝 New Job", use_container_width=True):
+        st.session_state.job_data = None
+        st.session_state.resume_data = None
+        st.session_state.match_data = None
+        st.session_state.letter_data = None
         st.session_state.page = "job_input"
         st.rerun()
     
