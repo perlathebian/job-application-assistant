@@ -3,15 +3,12 @@
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.109.0-009688.svg)](https://fastapi.tiangolo.com/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.30.0-FF4B4B.svg)](https://streamlit.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Tests](https://img.shields.io/badge/tests-37%20passing-brightgreen.svg)](tests/)
+[![Tests](https://img.shields.io/badge/tests-41%20passing-brightgreen.svg)](tests/)
 [![Coverage](https://img.shields.io/badge/coverage-85%25-brightgreen.svg)](htmlcov/)
 
 A complete, production-ready ML application for job applications featuring semantic matching, AI-powered cover letter generation, and application tracking. Built as a portfolio project demonstrating full-stack ML engineering skills.
 
 ## Demo
-
-**Live Demo:** [HuggingFace Spaces](https://huggingface.co/spaces/perlathebian/job-application-assistant) _(will add url later; hugging face spaces might be optimal for this, switching to railway)_
 
 **Screenshots:**
 
@@ -42,6 +39,54 @@ A complete, production-ready ML application for job applications featuring seman
 - **Testing:** ~85% coverage, 37 tests passing
 - **Logging:** Comprehensive error tracking and performance monitoring
 - **Deployment:** Docker + Docker Compose ready
+
+## Architecture
+
+```
+Job Description (text input)
+        │
+        ▼
+spaCy NLP Extraction
+[skill_extractor.py — 360+ skills, 6 domains]
+        │
+        ├──→ Skills List
+        ├──→ Experience Level
+        ├──→ Job Title
+        └──→ Detected Domain (Software/Marketing/Finance/etc.)
+        │
+        ▼
+Resume Upload (PDF/DOCX)
+        │
+        ▼
+Resume Parser
+[resume_parser.py — pdfplumber/python-docx]
+        │
+        ├──→ Extracted Text
+        ├──→ Skills List
+        └──→ Contact Information
+        │
+        ▼
+Semantic Matcher
+[semantic_matcher.py — sentence-transformers all-MiniLM-L6-v2]
+        │
+        ├──→ Skill Match Score (60% weight)
+        ├──→ Semantic Similarity Score (40% weight)
+        ├──→ Overall Match Score
+        ├──→ Matched / Missing Skills
+        └──→ Recommendation
+        │
+        ▼
+Cover Letter Generator
+[letter_generator.py — Groq LLM Llama 3.3 70B]
+        │
+        └──→ Personalized Cover Letter
+        │
+        ▼
+Application History
+[database_service.py — async SQLite, persistent via Docker volume]
+        │
+        └──→ Saved Applications + Match Scores + Letters
+```
 
 ## Quick Start
 
