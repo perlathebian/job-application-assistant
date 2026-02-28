@@ -60,7 +60,6 @@ def show():
                     status_text.text("Complete!")
             
                     st.success("✅ Skills extracted successfully!")
-                    st.balloons()
             
                 except Exception as e:
                     progress_bar.empty()

@@ -53,7 +53,6 @@ def show():
                         }
                         
                         st.success("✅ Resume parsed successfully!")
-                        st.balloons()
                         
                     except Exception as e:
                         st.error(f"❌ Error: {str(e)}")
