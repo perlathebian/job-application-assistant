@@ -111,6 +111,8 @@ def show():
                     }
                 ))
 
+                st.session_state.history_refresh = True
+                st.session_state.pop("history_data", None)
                 st.success("✅ Saved to history!")
 
             except Exception as e:

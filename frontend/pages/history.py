@@ -34,23 +34,7 @@ def show():
             })
 
         df = pd.DataFrame(data)
-        row_height = 35
-        header_height = 38
-        dynamic_height = header_height + (row_height * len(df))
-
-        st.dataframe(
-            df,
-            use_container_width=True,
-            height=dynamic_height,
-            column_config={
-                "Date": st.column_config.TextColumn(width=130),
-                "Company": st.column_config.TextColumn(width=130),
-                "Position": st.column_config.TextColumn(width=180),
-                "Match Score": st.column_config.TextColumn(width=110),
-                "Resume": st.column_config.TextColumn(width=180)
-            },
-            hide_index=True
-        )
+        st.table(df)
 
         st.markdown("---")
         st.markdown("### 📄 View Details")
