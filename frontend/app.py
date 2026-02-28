@@ -115,6 +115,8 @@ with st.sidebar:
     
     if st.button("📚 History", use_container_width=True):
         st.session_state.page = "history"
+        st.session_state.pop("history_data", None)
+        st.session_state.history_refresh = True
         st.rerun()
     
     st.markdown("---")

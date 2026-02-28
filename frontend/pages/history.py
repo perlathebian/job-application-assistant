@@ -39,13 +39,9 @@ def show():
         st.markdown("---")
         st.markdown("### 📄 View Details")
 
-        selected_company = st.selectbox(
-            "Select application",
-            options=[m["company_name"] for m in matches],
-            index=0
-        )
-
-        selected = next((m for m in matches if m["company_name"] == selected_company), None)
+        options = {f"{m['company_name']} — {m['created_at'][:16]} ({m['id']})": m for m in matches}
+        selected_label = st.selectbox("Select application", options=list(options.keys()), index=0)
+        selected = options[selected_label]
 
         if selected:
             col1, col2, col3 = st.columns(3)
@@ -77,7 +73,7 @@ def show():
                     method="DELETE"
                 ))
                 st.session_state.history_refresh = True
-                st.success("Deleted!")
+                st.session_state.pop("history_data", None)
                 st.rerun()
 
     except Exception as e:
