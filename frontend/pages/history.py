@@ -11,7 +11,8 @@ def show():
     try:
         # Only fetch if not already cached, or after delete
         if "history_data" not in st.session_state or st.session_state.get("history_refresh"):
-            matches = asyncio.run(call_api("/api/v1/applications/all", method="GET"))
+            with st.spinner("Loading applications..."):
+                matches = asyncio.run(call_api("/api/v1/applications/all", method="GET"))
             st.session_state.history_data = matches
             st.session_state.history_refresh = False
         else:
@@ -42,11 +43,11 @@ def show():
             use_container_width=True,
             height=dynamic_height,
             column_config={
-                "Date": st.column_config.TextColumn(width="small"),
-                "Company": st.column_config.TextColumn(width="small"),
-                "Position": st.column_config.TextColumn(width="medium"),
-                "Match Score": st.column_config.TextColumn(width="small"),
-                "Resume": st.column_config.TextColumn(width="medium"),
+                "Date": st.column_config.TextColumn(width=130),
+                "Company": st.column_config.TextColumn(width=130),
+                "Position": st.column_config.TextColumn(width=180),
+                "Match Score": st.column_config.TextColumn(width=110),
+                "Resume": st.column_config.TextColumn(width=180)
             },
             hide_index=True
         )
