@@ -33,10 +33,14 @@ def show():
             })
 
         df = pd.DataFrame(data)
+        row_height = 35
+        header_height = 38
+        dynamic_height = header_height + (row_height * len(df))
+
         st.dataframe(
             df,
             use_container_width=True,
-            height=200,
+            height=dynamic_height,
             column_config={
                 "Date": st.column_config.TextColumn(width="small"),
                 "Company": st.column_config.TextColumn(width="small"),
