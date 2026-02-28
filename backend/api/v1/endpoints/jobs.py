@@ -16,7 +16,6 @@ async def extract_skills(job: JobDescriptionInput):
     Returns:
     - List of extracted skills
     - Experience level (Junior/Mid-level/Senior)
-    - Job title (if detected)
     """
     try:
         result = skill_extractor.extract_all(job.text)
@@ -24,7 +23,6 @@ async def extract_skills(job: JobDescriptionInput):
         return SkillsOutput(
             skills=result["skills"],
             experience_level=result["experience_level"],
-            job_title=result["job_title"],
             detected_domain=result["detected_domain"]
         )
     except Exception as e:

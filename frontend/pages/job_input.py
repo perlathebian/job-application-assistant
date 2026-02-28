@@ -53,7 +53,6 @@ def show():
                         "description": job_description,
                         "skills": result["skills"],
                         "experience_level": result.get("experience_level"),
-                        "job_title": result.get("job_title"),
                         "detected_domain": result.get("detected_domain") 
                     }
             
@@ -73,9 +72,6 @@ def show():
             st.markdown("### ✅ Extracted Information")
             
             data = st.session_state.job_data
-            
-            if data.get("job_title"):
-                st.info(f"**Position:** {data['job_title']}")
             
             if data.get("experience_level"):
                 st.info(f"**Level:** {data['experience_level']}")

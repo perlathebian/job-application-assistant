@@ -12,7 +12,6 @@ class SkillsOutput(BaseModel):
     """Output schema for extracted skills"""
     skills: List[str]
     experience_level: str | None = None
-    job_title: str | None = None
     detected_domain: str | None = None
 
 class ResumeParseOutput(BaseModel):

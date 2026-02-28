@@ -56,15 +56,6 @@ def test_extract_experience_mid(extractor):
     assert level == "Mid-level"
 
 
-def test_extract_job_title(extractor):
-    """Test job title extraction"""
-    text = "We are hiring a Machine Learning Engineer to join our team"
-    title = extractor.extract_job_title(text)
-    
-    # Job title extraction includes context words: verify it contains the key terms
-    assert "Machine Learning Engineer" in title
-
-
 def test_false_positive_go_not_extracted(extractor):
     text = "We are looking to go beyond traditional approaches and grow the team."
     skills = extractor.extract_skills(text)
@@ -105,7 +96,6 @@ def test_extract_all(extractor):
     
     assert "skills" in result
     assert "experience_level" in result
-    assert "job_title" in result
     assert "detected_domain" in result
     assert result["experience_level"] == "Senior"
     assert len(result["skills"]) > 0
