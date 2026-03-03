@@ -6,7 +6,7 @@ uvicorn backend.main:app --host 0.0.0.0 --port 8000 &
 
 # Wait for backend to be ready
 echo "Waiting for backend to be ready..."
-sleep 5
+sleep 10
 
 # Start frontend
 echo "Starting Streamlit frontend..."

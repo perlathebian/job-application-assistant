@@ -22,7 +22,7 @@ A complete, production-ready ML application for job applications featuring seman
 - 📝 **Job Description Analysis** - Extract skills, experience level, job titles, and detected role domain using spaCy NLP
 - 🏷️ **Multi-Domain Support** - Supports 6 professional domains: Software Engineering, Data & ML, Marketing, Finance, Healthcare, Operations & Legal (360+ skills)
 - 📄 **Resume Parsing** - Parse PDF and DOCX resumes with contact extraction
-- 🎯 **Semantic Matching** - Calculate match scores using sentence-transformers (85% accuracy)
+- 🎯 **Semantic Matching** - Calculate match scores using sentence-transformers
 - ✉️ **AI Cover Letters** - Generate personalized letters with Groq LLM (Llama 3.3 70B)
 - 📚 **Application History** - Track all applications with SQLite database
 
@@ -33,7 +33,7 @@ A complete, production-ready ML application for job applications featuring seman
 - **ML Models:** spaCy (NLP), sentence-transformers (semantic matching)
 - **LLM:** Groq API (free and fast inference)
 - **Database:** SQLAlchemy with async SQLite, persistent via Docker volume mount
-- **Testing:** ~85% coverage, 37 tests passing
+- **Testing:** ~85% coverage, 41 tests passing
 - **Logging:** Comprehensive error tracking and performance monitoring
 - **Deployment:** Docker + Docker Compose ready
 
@@ -191,7 +191,7 @@ start htmlcov/index.html # Windows
 python benchmark.py
 ```
 
-**Test Coverage:** ~85% (37 tests passing)
+**Test Coverage:** ~85% (41 tests passing)
 
 ## Project Structure
 
@@ -267,7 +267,7 @@ job-application-assistant/
 ### DevOps
 
 - **Containerization:** Docker, Docker Compose
-- **Deployment:** HuggingFace Spaces
+- **Deployment:** Railway
 - **Logging:** Python logging with daily rotation
 - **Error Handling:** Custom middleware
 
