@@ -88,33 +88,7 @@ class SkillExtractor:
             return "Junior"
         
         return "Not specified"
-    
-    def extract_job_title(self, text: str) -> str | None:
-        """Extract likely job title from description"""
-        doc = self.nlp(text)
-        
-        # Common job title keywords
-        title_keywords = [
-            "engineer", "developer", "scientist", "analyst", "manager",
-            "architect", "consultant", "specialist", "lead", "director"
-        ]
-        
-        # Look for job titles in first few sentences
-        for sent in list(doc.sents)[:3]:
-            sent_text = sent.text.lower()
-            for keyword in title_keywords:
-                if keyword in sent_text:
-                    # Extract phrase around keyword
-                    words = sent.text.split()
-                    for i, word in enumerate(words):
-                        if keyword in word.lower():
-                            # Get 2 words before and 1 after
-                            start = max(0, i-2)
-                            end = min(len(words), i+2)
-                            title = " ".join(words[start:end])
-                            return title.strip()
-        
-        return None
+
     
     def detect_domain(self, matched_skills: List[str]) -> str:
         """Detect the most likely job domain based on matched skills."""
@@ -141,6 +115,5 @@ class SkillExtractor:
         return {
             "skills": skills,
             "experience_level": self.extract_experience_level(text),
-            "job_title": self.extract_job_title(text),
             "detected_domain": self.detect_domain(skills)  
         }

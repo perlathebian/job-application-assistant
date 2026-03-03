@@ -24,6 +24,9 @@ def show():
         )
         
         if uploaded_file:
+            file_size_mb = len(uploaded_file.getvalue()) / (1024 * 1024)
+            if file_size_mb > 10:
+                st.warning(f"⚠️ Large file detected ({file_size_mb:.1f} MB). This may take longer to parse.")
             st.success(f"✅ File uploaded: {uploaded_file.name}")
             
             if st.button("📊 Parse Resume", type="primary"):
@@ -50,7 +53,6 @@ def show():
                         }
                         
                         st.success("✅ Resume parsed successfully!")
-                        st.balloons()
                         
                     except Exception as e:
                         st.error(f"❌ Error: {str(e)}")

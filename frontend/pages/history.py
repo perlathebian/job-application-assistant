@@ -11,7 +11,8 @@ def show():
     try:
         # Only fetch if not already cached, or after delete
         if "history_data" not in st.session_state or st.session_state.get("history_refresh"):
-            matches = asyncio.run(call_api("/api/v1/applications/all", method="GET"))
+            with st.spinner("Loading applications..."):
+                matches = asyncio.run(call_api("/api/v1/applications/all", method="GET"))
             st.session_state.history_data = matches
             st.session_state.history_refresh = False
         else:
@@ -33,30 +34,14 @@ def show():
             })
 
         df = pd.DataFrame(data)
-        st.dataframe(
-            df,
-            use_container_width=True,
-            height=200,
-            column_config={
-                "Date": st.column_config.TextColumn(width="small"),
-                "Company": st.column_config.TextColumn(width="small"),
-                "Position": st.column_config.TextColumn(width="medium"),
-                "Match Score": st.column_config.TextColumn(width="small"),
-                "Resume": st.column_config.TextColumn(width="medium"),
-            },
-            hide_index=True
-        )
+        st.table(df)
 
         st.markdown("---")
         st.markdown("### 📄 View Details")
 
-        selected_company = st.selectbox(
-            "Select application",
-            options=[m["company_name"] for m in matches],
-            index=0
-        )
-
-        selected = next((m for m in matches if m["company_name"] == selected_company), None)
+        options = {f"{m['company_name']} — {m['created_at'][:16]} ({m['id']})": m for m in matches}
+        selected_label = st.selectbox("Select application", options=list(options.keys()), index=0)
+        selected = options[selected_label]
 
         if selected:
             col1, col2, col3 = st.columns(3)
@@ -88,7 +73,7 @@ def show():
                     method="DELETE"
                 ))
                 st.session_state.history_refresh = True
-                st.success("Deleted!")
+                st.session_state.pop("history_data", None)
                 st.rerun()
 
     except Exception as e:

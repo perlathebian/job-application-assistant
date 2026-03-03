@@ -3,24 +3,17 @@
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.109.0-009688.svg)](https://fastapi.tiangolo.com/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.30.0-FF4B4B.svg)](https://streamlit.io/)
-[![Tests](https://img.shields.io/badge/tests-37%20passing-brightgreen.svg)](tests/)
+[![Tests](https://img.shields.io/badge/tests-41%20passing-brightgreen.svg)](tests/)
 [![Coverage](https://img.shields.io/badge/coverage-85%25-brightgreen.svg)](htmlcov/)
 
 A complete, production-ready ML application for job applications featuring semantic matching, AI-powered cover letter generation, and application tracking. Built as a portfolio project demonstrating full-stack ML engineering skills.
 
 ## Demo
 
-**Live Demo:** [https://job-application-assistant-production.up.railway.app](https://job-application-assistant-production.up.railway.app)
+**Demo Video:** [Watch Demo](https://1drv.ms/v/c/fe2fb007f7f25e16/IQBRJz3IYIyvTrze66PcdmoMAfOWOVowGtKWKIkjm_v8bpI?e=GwrIUe)
 
-_Production deployment on Railway with Docker multi-container architecture_
-
-**Screenshots:**
-
-![Skill extraction from job description](screenshots/01_job_input.png)
-![Resume upload and skill extraction](screenshots/02_resume_upload.png)
-![Displaying match scores](screenshots/03_match_display.png)
-![Generating cover letter](screenshots/04_letter_generation.png)
-![Application history](screenshots/05_app_history.png)
+**Live App:** [Frontend on Railway](front-end-production-f6f4.up.railway.app)
+**API Docs:** [Backend on Railway](backend-production-a768.up.railway.app/api/docs)
 
 ## ✨ Features
 
@@ -40,52 +33,57 @@ _Production deployment on Railway with Docker multi-container architecture_
 - **ML Models:** spaCy (NLP), sentence-transformers (semantic matching)
 - **LLM:** Groq API (free and fast inference)
 - **Database:** SQLAlchemy with async SQLite, persistent via Docker volume mount
-- **Testing:** ~85% coverage, 37 tests passing
+- **Testing:** ~85% coverage, 41 tests passing
 - **Logging:** Comprehensive error tracking and performance monitoring
 - **Deployment:** Docker + Docker Compose ready
 
 ## Architecture
 
-<p align="center">
-  <img src="docs/architecture-diagram.png" alt="System Architecture" width="100%">
-</p>
-
-### System Components
-
-**Frontend Layer (Streamlit)**
-
-- Multi-page UI with workflow navigation
-- Plotly visualizations for match scores
-- Session state management
-- Async HTTP client for backend communication
-
-**Backend Layer (FastAPI)**
-
-- RESTful API with versioning (/api/v1/)
-- Async SQLAlchemy database operations
-- Pydantic request/response validation
-- Global error handling middleware
-
-**Services Layer**
-
-- **Skill Extractor**: spaCy NLP + 100+ skills database
-- **Resume Parser**: PDF/DOCX parsing with contact extraction
-- **Semantic Matcher**: sentence-transformers (all-MiniLM-L6-v2) + LRU cache
-- **Letter Generator**: Groq LLM API + template fallback
-
-**Data & ML Models**
-
-- spaCy: en_core_web_sm for NLP
-- Sentence Transformers: 384-dim embeddings
-- SQLite database with async support
-- Embedding cache (500 entries, LRU eviction)
-
-**Deployment**
-
-- Docker multi-container architecture
-- Railway platform with auto-deploy
-- GitHub integration for CI/CD
-- Public URL with health monitoring
+```
+Job Description (text input)
+        │
+        ▼
+spaCy NLP Extraction
+[skill_extractor.py — 360+ skills, 6 domains]
+        │
+        ├──→ Skills List
+        ├──→ Experience Level
+        ├──→ Job Title
+        └──→ Detected Domain (Software/Marketing/Finance/etc.)
+        │
+        ▼
+Resume Upload (PDF/DOCX)
+        │
+        ▼
+Resume Parser
+[resume_parser.py — pdfplumber/python-docx]
+        │
+        ├──→ Extracted Text
+        ├──→ Skills List
+        └──→ Contact Information
+        │
+        ▼
+Semantic Matcher
+[semantic_matcher.py — sentence-transformers all-MiniLM-L6-v2]
+        │
+        ├──→ Skill Match Score (60% weight)
+        ├──→ Semantic Similarity Score (40% weight)
+        ├──→ Overall Match Score
+        ├──→ Matched / Missing Skills
+        └──→ Recommendation
+        │
+        ▼
+Cover Letter Generator
+[letter_generator.py — Groq LLM Llama 3.3 70B]
+        │
+        └──→ Personalized Cover Letter
+        │
+        ▼
+Application History
+[database_service.py — async SQLite, persistent via Docker volume]
+        │
+        └──→ Saved Applications + Match Scores + Letters
+```
 
 ## Quick Start
 
@@ -193,7 +191,7 @@ start htmlcov/index.html # Windows
 python benchmark.py
 ```
 
-**Test Coverage:** ~85% (37 tests passing)
+**Test Coverage:** ~85% (41 tests passing)
 
 ## Project Structure
 
