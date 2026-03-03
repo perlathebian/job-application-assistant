@@ -10,13 +10,10 @@ A complete, production-ready ML application for job applications featuring seman
 
 ## Demo
 
-**Screenshots:**
+**Demo Video:** [Watch Demo](https://1drv.ms/v/c/fe2fb007f7f25e16/IQBRJz3IYIyvTrze66PcdmoMAfOWOVowGtKWKIkjm_v8bpI?e=GwrIUe)
 
-![Skill extraction from job description](screenshots/01_job_input.png)
-![Resume upload and skill extraction](screenshots/02_resume_upload.png)
-![Displaying match scores](screenshots/03_match_display.png)
-![Generating cover letter](screenshots/04_letter_generation.png)
-![Application history](screenshots/05_app_history.png)
+**Live App:** [Frontend on Railway](front-end-production-f6f4.up.railway.app)
+**API Docs:** [Backend on Railway](backend-production-a768.up.railway.app/api/docs)
 
 ## ✨ Features
 
