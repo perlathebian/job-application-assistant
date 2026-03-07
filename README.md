@@ -10,7 +10,7 @@ A complete, production-ready ML application for job applications featuring seman
 
 ## Demo
 
-**Demo Video:** [Watch Demo](https://1drv.ms/v/c/fe2fb007f7f25e16/IQBRJz3IYIyvTrze66PcdmoMAfOWOVowGtKWKIkjm_v8bpI?e=GwrIUe)
+**Demo Video:** [Watch Demo](https://1drv.ms/v/c/fe2fb007f7f25e16/IQBRJz3IYIyvTrze66PcdmoMAfOWOVowGtKWKIkjm_v8bpI)
 
 **Live App:** [Frontend on Railway](front-end-production-f6f4.up.railway.app)
 **API Docs:** [Backend on Railway](backend-production-a768.up.railway.app/api/docs)
